@@ -6,12 +6,12 @@ class Operation(
 ) {
     fun executeOperation(): Boolean {
         val shouldContinue = when (opCode) {
-            OperationType.HALT -> true
-            OperationType.OUT -> {
+            OperationType.NOOP -> true      // do nothing, but continue
+            OperationType.OUT -> {          // output arg1
                 print(Char(args[0]))
                 return true
             }
-            OperationType.NOOP -> false
+            OperationType.HALT -> false     // stop program
         }
         return shouldContinue
     }
