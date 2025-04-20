@@ -1,5 +1,7 @@
 package dev.tuskyparadise
 
+import dev.tuskyparadise.operations.Operation
+import dev.tuskyparadise.operations.OperationType
 import java.util.Stack
 
 /** Start with operations:

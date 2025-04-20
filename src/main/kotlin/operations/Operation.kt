@@ -1,4 +1,4 @@
-package dev.tuskyparadise
+package dev.tuskyparadise.operations
 
 class Operation(
     val opCode: OperationType,

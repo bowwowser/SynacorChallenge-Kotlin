@@ -1,4 +1,4 @@
-package dev.tuskyparadise
+package dev.tuskyparadise.operations
 
 enum class OperationType(
     val opCode: Int,
