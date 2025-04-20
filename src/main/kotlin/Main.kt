@@ -34,35 +34,40 @@ fun main() {
      * # Main Loop
      * **TODO:** gradually split things into `fun`s, then `class`es
      */
-    val message = "Hello World!"
-    val messageCodes = message.map { "19,${it.code}" }.joinToString(separator = ",")
-    val programString = "${messageCodes},21,0"
-    val program = programString.split(",").map { it.toInt() }
+    // Get binary from challenge.bin
+    val challengeProgram = ChallengeBinReader().contents
 
+    // Parse Operations
     var argCount = 0
-
     val operations = mutableListOf<Operation>()
-    for (command in program) {
-        // Parse operation
+    for (command in challengeProgram) {
         if (argCount > 0) {
             val lastOp = operations.last()
             println("Parsing arg; value = $command")
             lastOp.args[lastOp.opCode.numArgs - argCount] = command
             argCount = argCount.dec()
         } else {
-            val opType = OperationType.fromInt(command)
-            println("Parsing command; command = $opType")
-            println("Num of args? ${opType.numArgs}")
-            operations.add(
-                Operation(
-                    opType,
-                    Array(opType.numArgs) { 0 }
+            try {
+                val opType = OperationType.fromInt(command)
+                println("Parsing command; command = $opType")
+                println("Num of args? ${opType.numArgs}")
+                operations.add(
+                    Operation(
+                        opType,
+                        Array(opType.numArgs) { 0 }
+                    )
                 )
-            )
-            argCount = opType.numArgs
+                argCount = opType.numArgs
+            } catch (_: NoSuchElementException) {
+                println("!!! Could not parse command with opcode [${command}] !!!")
+                println("=============== HALTING PROCESSING ===============")
+                break
+            }
         }
     }
 
+    // Execute operations
+    println("++++++++++++++++++ PROGRAM START +++++++++++++++++")
     for (operation in operations) {
         val shouldContinue = operation.executeOperation()
         if (!shouldContinue) {
