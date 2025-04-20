@@ -43,26 +43,22 @@ fun main() {
     }
     programCounter = 0
 
-    // Parse Operations
     var argCount = 0
-    val operations = mutableListOf<Operation>()
-    for (command in memory) {
+
+    var currentOperation = Operation(OperationType.NOOP, intArrayOf())
+    while (programCounter >= 0) {
+        // Parse Operations
+        val command = memory[programCounter]
         if (argCount > 0) {
-            val lastOp = operations.last()
-            println("Parsing arg; value = $command")
-            lastOp.args[lastOp.opCode.numArgs - argCount] = command
-            argCount = argCount.dec()
+//            println("Parsing arg; value = $command")
+            currentOperation.args[currentOperation.opCode.numArgs - argCount] = command
+            argCount--
         } else {
             try {
                 val opType = OperationType.fromInt(command)
-                println("Parsing command; command = $opType")
-                println("Num of args? ${opType.numArgs}")
-                operations.add(
-                    Operation(
-                        opType,
-                        Array(opType.numArgs) { 0 }
-                    )
-                )
+//                println("Parsing command; command = $opType")
+//                println("Num of args? ${opType.numArgs}")
+                currentOperation = Operation(opType, IntArray(opType.numArgs))
                 argCount = opType.numArgs
             } catch (_: NoSuchElementException) {
                 println("!!! Could not parse command with opcode [${command}] !!!")
@@ -70,14 +66,12 @@ fun main() {
                 break
             }
         }
-    }
 
-    // Execute operations
-    println("++++++++++++++++++ PROGRAM START +++++++++++++++++")
-    for (operation in operations) {
-        val shouldContinue = operation.executeOperation()
-        if (!shouldContinue) {
-            break
+        if (argCount == 0) {
+            val newProgramCounter = currentOperation.executeOperation(programCounter)
+            programCounter = newProgramCounter
+        } else {
+            programCounter++
         }
     }
 }
