@@ -4,10 +4,9 @@ import dev.tuskyparadise.operations.Operation
 import dev.tuskyparadise.operations.OperationType
 import java.util.Stack
 
-/** Start with operations:
- * - 0:  halt
- * - 19: out
- * - 21: noop
+/** Next operation:
+ * - 6: JMP a
+ *   - jump to {a}
  */
 fun main() {
 
@@ -16,9 +15,7 @@ fun main() {
      * Memory with 15-bit **address** space
      * stores: 16-bit **value**s
      */
-    val storage1: Int
-    val storage2: Int
-    val storage3: Int
+    val memory = IntArray(32768)
 
     /**
      * ## Storage 2
@@ -36,13 +33,20 @@ fun main() {
      * # Main Loop
      * **TODO:** gradually split things into `fun`s, then `class`es
      */
+    var programCounter = 0
+
     // Get binary from challenge.bin
     val challengeProgram = ChallengeBinReader().contents
+    for (command in challengeProgram) {
+        memory[programCounter] = command
+        programCounter++
+    }
+    programCounter = 0
 
     // Parse Operations
     var argCount = 0
     val operations = mutableListOf<Operation>()
-    for (command in challengeProgram) {
+    for (command in memory) {
         if (argCount > 0) {
             val lastOp = operations.last()
             println("Parsing arg; value = $command")
