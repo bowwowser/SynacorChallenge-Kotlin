@@ -55,78 +55,78 @@ class Processor {
         }
     }
 
-    fun executeCurrentOperation() {
-        when (currentOperation.opCode) {
+    fun executeOperation(operation: Operation) {
+        when (operation.opCode) {
             OperationType.NOOP -> return
             OperationType.SET -> {
-                val registerTarget = currentOperation.args[0].targetRegister()
-                val newRegisterValue = currentOperation.args[1]
+                val registerTarget = operation.args[0].targetRegister()
+                val newRegisterValue = operation.args[1]
                 registers[registerTarget] = SCNumber(newRegisterValue.resolveValue(registers))
             }
             OperationType.PUSH -> {
-                val newValue = currentOperation.args[0].resolveValue(registers)
+                val newValue = operation.args[0].resolveValue(registers)
                 stack.push(newValue)
             }
             OperationType.POP -> {
-                val registerTarget = currentOperation.args[0].targetRegister()
+                val registerTarget = operation.args[0].targetRegister()
                 registers[registerTarget] = SCNumber(stack.pop())
             }
             OperationType.OUT -> {
-                val charCode = currentOperation.args[0].resolveValue(registers)
+                val charCode = operation.args[0].resolveValue(registers)
                 print(Char(charCode))
             }
             OperationType.EQ -> {
-                val registerTarget = currentOperation.args[0].targetRegister()
-                val eq1 = currentOperation.args[1].resolveValue(registers)
-                val eq2 = currentOperation.args[2].resolveValue(registers)
+                val registerTarget = operation.args[0].targetRegister()
+                val eq1 = operation.args[1].resolveValue(registers)
+                val eq2 = operation.args[2].resolveValue(registers)
                 registers[registerTarget] = SCNumber(if (eq1 == eq2) 1 else 0)
             }
             OperationType.GT -> {
-                val registerTarget = currentOperation.args[0].targetRegister()
-                val op1 = currentOperation.args[1].resolveValue(registers)
-                val op2 = currentOperation.args[2].resolveValue(registers)
+                val registerTarget = operation.args[0].targetRegister()
+                val op1 = operation.args[1].resolveValue(registers)
+                val op2 = operation.args[2].resolveValue(registers)
                 registers[registerTarget] = SCNumber(if (op1 > op2) 1 else 0)
             }
             OperationType.JMP -> {
-                val target = currentOperation.args[0].resolveValue(registers)
+                val target = operation.args[0].resolveValue(registers)
                 programCounter = target
             }
             OperationType.JT -> {
-                val condition = currentOperation.args[0].resolveValue(registers)
-                val target = currentOperation.args[1].resolveValue(registers)
+                val condition = operation.args[0].resolveValue(registers)
+                val target = operation.args[1].resolveValue(registers)
                 if (condition != 0) {
                     programCounter = target
                 }
             }
             OperationType.JF -> {
-                val condition = currentOperation.args[0].resolveValue(registers)
-                val target = currentOperation.args[1].resolveValue(registers)
+                val condition = operation.args[0].resolveValue(registers)
+                val target = operation.args[1].resolveValue(registers)
                 if (condition == 0) {
                     programCounter = target
                 }
             }
             OperationType.ADD -> {
-                val registerTarget = currentOperation.args[0].resolveValue(registers)
-                val add1 = currentOperation.args[1].resolveValue(registers)
-                val add2 = currentOperation.args[2].resolveValue(registers)
+                val registerTarget = operation.args[0].resolveValue(registers)
+                val add1 = operation.args[1].resolveValue(registers)
+                val add2 = operation.args[2].resolveValue(registers)
                 registers[registerTarget] = SCNumber((add1 + add2) % SCNumber.MODULO_BASE)
                 return
             }
             OperationType.AND -> {
-                val registerTarget = currentOperation.args[0].targetRegister()
-                val and1 = currentOperation.args[1].resolveValue(registers)
-                val and2 = currentOperation.args[2].resolveValue(registers)
+                val registerTarget = operation.args[0].targetRegister()
+                val and1 = operation.args[1].resolveValue(registers)
+                val and2 = operation.args[2].resolveValue(registers)
                 registers[registerTarget] = SCNumber(and1 and and2)
             }
             OperationType.OR -> {
-                val registerTarget = currentOperation.args[0].targetRegister()
-                val and1 = currentOperation.args[1].resolveValue(registers)
-                val and2 = currentOperation.args[2].resolveValue(registers)
+                val registerTarget = operation.args[0].targetRegister()
+                val and1 = operation.args[1].resolveValue(registers)
+                val and2 = operation.args[2].resolveValue(registers)
                 registers[registerTarget] = SCNumber(and1 or and2)
             }
             OperationType.NOT -> {
-                val registerTarget = currentOperation.args[0].targetRegister()
-                val not1 = currentOperation.args[1].resolveValue(registers)
+                val registerTarget = operation.args[0].targetRegister()
+                val not1 = operation.args[1].resolveValue(registers)
                 registers[registerTarget] = SCNumber(not1).bitwiseInverse()
             }
             OperationType.HALT -> {
@@ -134,6 +134,10 @@ class Processor {
                 return
             }
         }
+    }
+
+    fun executeCurrentOperation() {
+        executeOperation(currentOperation)
     }
 
     companion object {
