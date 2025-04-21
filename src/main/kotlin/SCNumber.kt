@@ -51,6 +51,10 @@ class SCNumber(
         return value  % MODULO_BASE
     }
 
+    fun bitwiseInverse(): SCNumber {
+        return SCNumber(MAX_NUM_VALUE - value)
+    }
+
     companion object {
         const val MIN_NUM_VALUE = 0x0000
         const val MAX_NUM_VALUE = 0x7FFF

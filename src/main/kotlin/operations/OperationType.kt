@@ -14,6 +14,9 @@ enum class OperationType(
     JT(7, 2),
     JF(8, 2),
     ADD(9, 3),
+    AND(12, 3),
+    OR(13, 3),
+    NOT(14, 2),
     OUT(19, 1),
     NOOP(21);
 
