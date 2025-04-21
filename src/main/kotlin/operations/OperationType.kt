@@ -24,6 +24,7 @@ enum class OperationType(
     CALL(17, 1),
     RET(18),
     OUT(19, 1),
+    IN(20, 1),
     NOOP(21);
 
     companion object {

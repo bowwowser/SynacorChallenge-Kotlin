@@ -36,6 +36,8 @@ class Processor {
 
     var currentOperation = Operation(OperationType.NOOP, arrayOf())
 
+    var inputBuffer = ArrayDeque<Char>()
+
     fun processNextOperation() {
         try {
             val opType = OperationType.fromInt(memory[programCounter])
@@ -68,8 +70,13 @@ class Processor {
                 stack.push(newValue)
             }
             OperationType.POP -> {
-                val registerTarget = operation.args[0].targetRegister()
-                registers[registerTarget] = SCNumber(stack.pop())
+                if (stack.isEmpty()) {
+                    println("!!!!! === ERROR: Stack is empty! === !!!!!")
+                    programCounter = PC_EXIT
+                } else {
+                    val registerTarget = operation.args[0].targetRegister()
+                    registers[registerTarget] = SCNumber(stack.pop())
+                }
             }
             OperationType.EQ -> {
                 val registerTarget = operation.args[0].targetRegister()
@@ -156,12 +163,26 @@ class Processor {
                 programCounter = jumpTarget
             }
             OperationType.RET -> {
-                val jumpTarget = stack.pop()
-                programCounter = jumpTarget
+                if (stack.isEmpty()) {
+                    println("!!!!! === Stack is empty, stopping === !!!!!")
+                    programCounter = PC_EXIT
+                } else {
+                    val jumpTarget = stack.pop()
+                    programCounter = jumpTarget
+                }
             }
             OperationType.OUT -> {
                 val charCode = operation.args[0].resolveValue(registers)
                 print(Char(charCode))
+            }
+            OperationType.IN -> {
+                val registerTarget = operation.args[0].targetRegister()
+                if (inputBuffer.isEmpty()) {
+                    for (char in readln() + '\n') {
+                        inputBuffer.add(char)
+                    }
+                }
+                registers[registerTarget] = SCNumber(inputBuffer.removeFirst().code)
             }
             OperationType.HALT -> {
                 programCounter = PC_EXIT
