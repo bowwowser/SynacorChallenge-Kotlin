@@ -80,6 +80,13 @@ class Processor {
                     programCounter = target
                 }
             }
+            OperationType.ADD -> {
+                val registerTarget = currentOperation.args[0].resolveValue(registers)
+                val add1 = currentOperation.args[1].resolveValue(registers)
+                val add2 = currentOperation.args[2].resolveValue(registers)
+                registers[registerTarget] = SCNumber((add1 + add2) % SCNumber.MODULO_BASE)
+                return
+            }
             OperationType.HALT -> {
                 programCounter = PC_EXIT
                 return

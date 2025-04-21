@@ -8,6 +8,7 @@ enum class OperationType(
     JMP(6, 1),
     JT(7, 2),
     JF(8, 2),
+    ADD(9, 3),
     OUT(19, 1),
     NOOP(21);
 
