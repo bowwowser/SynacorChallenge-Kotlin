@@ -144,6 +144,16 @@ class Processor {
                 val not1 = operation.args[1].resolveValue(registers)
                 registers[registerTarget] = SCNumber(not1).bitwiseInverse()
             }
+            OperationType.RMEM -> {
+                val registerTarget = operation.args[0].targetRegister()
+                val memoryLocation = operation.args[1].resolveValue(registers)
+                registers[registerTarget] = SCNumber(memory[memoryLocation])
+            }
+            OperationType.WMEM -> {
+                val memoryLocation = operation.args[0].resolveValue(registers)
+                val targetValue = operation.args[1].resolveValue(registers)
+                memory[memoryLocation] = targetValue
+            }
             OperationType.CALL -> {
                 stack.push(programCounter)
                 val jumpTarget = operation.args[0].resolveValue(registers)
