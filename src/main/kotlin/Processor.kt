@@ -59,25 +59,25 @@ class Processor {
         when (currentOperation.opCode) {
             OperationType.NOOP -> return
             OperationType.OUT -> {
-                val charCode = currentOperation.args[0]
-                print(Char(charCode.resolveValue(registers)))
+                val charCode = currentOperation.args[0].resolveValue(registers)
+                print(Char(charCode))
             }
             OperationType.JMP -> {
-                val target = currentOperation.args[0]
-                programCounter = target.resolveValue(registers)
+                val target = currentOperation.args[0].resolveValue(registers)
+                programCounter = target
             }
             OperationType.JT -> {
-                val condition = currentOperation.args[0]
-                val target = currentOperation.args[1]
-                if (condition.resolveValue(registers) != 0) {
-                    programCounter = target.resolveValue(registers)
+                val condition = currentOperation.args[0].resolveValue(registers)
+                val target = currentOperation.args[1].resolveValue(registers)
+                if (condition != 0) {
+                    programCounter = target
                 }
             }
             OperationType.JF -> {
-                val condition = currentOperation.args[0]
-                val target = currentOperation.args[1]
-                if (condition.resolveValue(registers) == 0) {
-                    programCounter = target.resolveValue(registers)
+                val condition = currentOperation.args[0].resolveValue(registers)
+                val target = currentOperation.args[1].resolveValue(registers)
+                if (condition == 0) {
+                    programCounter = target
                 }
             }
             OperationType.HALT -> {
