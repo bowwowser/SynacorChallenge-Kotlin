@@ -66,6 +66,20 @@ class Processor {
                 val target = currentOperation.args[0]
                 programCounter = target.resolveValue(registers)
             }
+            OperationType.JT -> {
+                val condition = currentOperation.args[0]
+                val target = currentOperation.args[1]
+                if (condition.resolveValue(registers) != 0) {
+                    programCounter = target.resolveValue(registers)
+                }
+            }
+            OperationType.JF -> {
+                val condition = currentOperation.args[0]
+                val target = currentOperation.args[1]
+                if (condition.resolveValue(registers) == 0) {
+                    programCounter = target.resolveValue(registers)
+                }
+            }
             OperationType.HALT -> {
                 programCounter = PC_EXIT
                 return

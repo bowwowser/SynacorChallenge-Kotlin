@@ -6,6 +6,8 @@ enum class OperationType(
 ) {
     HALT(0),
     JMP(6, 1),
+    JT(7, 2),
+    JF(8, 2),
     OUT(19, 1),
     NOOP(21);
 
