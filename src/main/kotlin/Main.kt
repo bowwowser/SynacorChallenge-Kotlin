@@ -35,13 +35,12 @@ fun main() {
      */
     var programCounter = 0
 
-    // Get binary from challenge.bin
-    val challengeProgram = ChallengeBinReader().contents
-    for (command in challengeProgram) {
-        memory[programCounter] = command
-        programCounter++
-    }
-    programCounter = 0
+    // Load binary from challenge.bin into memory
+    ChallengeBinReader().contents
+        .withIndex()
+        .forEach {
+            memory[it.index] = it.value
+        }
 
     var argCount = 0
 
