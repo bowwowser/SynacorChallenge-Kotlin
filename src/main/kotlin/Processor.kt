@@ -67,6 +67,12 @@ class Processor {
                 val charCode = currentOperation.args[0].resolveValue(registers)
                 print(Char(charCode))
             }
+            OperationType.EQ -> {
+                val registerTarget = currentOperation.args[0].targetRegister()
+                val eq1 = currentOperation.args[1].resolveValue(registers)
+                val eq2 = currentOperation.args[2].resolveValue(registers)
+                registers[registerTarget] = SCNumber(if (eq1 == eq2) 1 else 0)
+            }
             OperationType.JMP -> {
                 val target = currentOperation.args[0].resolveValue(registers)
                 programCounter = target
