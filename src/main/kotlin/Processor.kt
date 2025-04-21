@@ -106,7 +106,7 @@ class Processor {
                 }
             }
             OperationType.ADD -> {
-                val registerTarget = operation.args[0].resolveValue(registers)
+                val registerTarget = operation.args[0].targetRegister()
                 val add1 = operation.args[1].resolveValue(registers)
                 val add2 = operation.args[2].resolveValue(registers)
                 registers[registerTarget] = SCNumber((add1 + add2) % SCNumber.MODULO_BASE)
