@@ -117,20 +117,17 @@ class Processor {
                 val and1 = currentOperation.args[1].resolveValue(registers)
                 val and2 = currentOperation.args[2].resolveValue(registers)
                 registers[registerTarget] = SCNumber(and1 and and2)
-                return
             }
             OperationType.OR -> {
                 val registerTarget = currentOperation.args[0].targetRegister()
                 val and1 = currentOperation.args[1].resolveValue(registers)
                 val and2 = currentOperation.args[2].resolveValue(registers)
                 registers[registerTarget] = SCNumber(and1 or and2)
-                return
             }
             OperationType.NOT -> {
                 val registerTarget = currentOperation.args[0].targetRegister()
                 val not1 = currentOperation.args[1].resolveValue(registers)
                 registers[registerTarget] = SCNumber(not1).bitwiseInverse()
-                return
             }
             OperationType.HALT -> {
                 programCounter = PC_EXIT
