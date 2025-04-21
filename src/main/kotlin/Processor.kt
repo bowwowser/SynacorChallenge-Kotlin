@@ -71,10 +71,6 @@ class Processor {
                 val registerTarget = operation.args[0].targetRegister()
                 registers[registerTarget] = SCNumber(stack.pop())
             }
-            OperationType.OUT -> {
-                val charCode = operation.args[0].resolveValue(registers)
-                print(Char(charCode))
-            }
             OperationType.EQ -> {
                 val registerTarget = operation.args[0].targetRegister()
                 val eq1 = operation.args[1].resolveValue(registers)
@@ -162,6 +158,10 @@ class Processor {
             OperationType.RET -> {
                 val jumpTarget = stack.pop()
                 programCounter = jumpTarget
+            }
+            OperationType.OUT -> {
+                val charCode = operation.args[0].resolveValue(registers)
+                print(Char(charCode))
             }
             OperationType.HALT -> {
                 programCounter = PC_EXIT
