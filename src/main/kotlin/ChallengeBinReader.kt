@@ -9,7 +9,7 @@ class ChallengeBinReader {
         val bytePair = ByteArray(2)
         while (fileContents.available() > 0) {
             fileContents.read(bytePair)
-            val intValue = IntValue(bytePair)
+            val intValue = SCNumber(bytePair)
             contents.add(intValue.value)
         }
     }
