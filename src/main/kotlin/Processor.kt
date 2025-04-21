@@ -112,6 +112,21 @@ class Processor {
                 registers[registerTarget] = SCNumber((add1 + add2) % SCNumber.MODULO_BASE)
                 return
             }
+            OperationType.MULT -> {
+                val registerTarget = operation.args[0].targetRegister()
+                val mult1 = operation.args[1].resolveValue(registers)
+                val mult2 = operation.args[2].resolveValue(registers)
+                registers[registerTarget] = SCNumber((mult1 * mult2) % SCNumber.MODULO_BASE)
+                return
+            }
+            OperationType.MOD -> {
+                val registerTarget = operation.args[0].targetRegister()
+                val mod1 = operation.args[1].resolveValue(registers)
+                val mod2 = operation.args[2].resolveValue(registers)
+                // TODO is this redundant? test later
+                registers[registerTarget] = SCNumber((mod1 % mod2) % SCNumber.MODULO_BASE)
+                return
+            }
             OperationType.AND -> {
                 val registerTarget = operation.args[0].targetRegister()
                 val and1 = operation.args[1].resolveValue(registers)
