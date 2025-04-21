@@ -22,6 +22,7 @@ enum class OperationType(
     RMEM(15, 2),
     WMEM(16, 2),
     CALL(17, 1),
+    RET(18),
     OUT(19, 1),
     NOOP(21);
 

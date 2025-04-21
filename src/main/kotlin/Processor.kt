@@ -159,6 +159,10 @@ class Processor {
                 val jumpTarget = operation.args[0].resolveValue(registers)
                 programCounter = jumpTarget
             }
+            OperationType.RET -> {
+                val jumpTarget = stack.pop()
+                programCounter = jumpTarget
+            }
             OperationType.HALT -> {
                 programCounter = PC_EXIT
             }
