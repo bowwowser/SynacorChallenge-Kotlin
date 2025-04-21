@@ -58,6 +58,11 @@ class Processor {
     fun executeCurrentOperation() {
         when (currentOperation.opCode) {
             OperationType.NOOP -> return
+            OperationType.SET -> {
+                val registerTarget = currentOperation.args[0].targetRegister()
+                val newRegisterValue = currentOperation.args[1]
+                registers[registerTarget] = SCNumber(newRegisterValue.resolveValue(registers))
+            }
             OperationType.OUT -> {
                 val charCode = currentOperation.args[0].resolveValue(registers)
                 print(Char(charCode))

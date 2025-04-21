@@ -5,6 +5,7 @@ enum class OperationType(
     val numArgs: Int = 0,
 ) {
     HALT(0),
+    SET(1, 2),
     JMP(6, 1),
     JT(7, 2),
     JF(8, 2),
