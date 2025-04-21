@@ -131,7 +131,6 @@ class Processor {
             }
             OperationType.HALT -> {
                 programCounter = PC_EXIT
-                return
             }
         }
     }
