@@ -47,8 +47,8 @@ class SCNumber(
         }
     }
 
-    fun moduloMax(): Int {
-        return value % MODULO_BASE
+    fun targetRegister(): Int {
+        return value  % MODULO_BASE
     }
 
     companion object {
@@ -62,12 +62,20 @@ class SCNumber(
 
         const val MODULO_BASE = 0x8000
     }
+
+    override fun toString(): String {
+        return when (category) {
+            NumberCategory.NUMBER -> "NUMBER(value=$value)"
+            NumberCategory.REGISTER -> "REGISTER(target=${targetRegister()})"
+            NumberCategory.INVALID -> "INVALID(value=$value)"
+        }
+    }
 }
 
 fun SCNumber.resolveValue(registers: Array<SCNumber>): Int {
     return when (this.category) {
         NumberCategory.NUMBER -> this.value
-        NumberCategory.REGISTER -> registers[this.moduloMax()].value
+        NumberCategory.REGISTER -> registers[this.targetRegister()].value
         NumberCategory.INVALID -> {
             println("!!! Invalid number! Value: ${this.value} !!!")
             println("=============== HALTING EXECUTION ===============")
