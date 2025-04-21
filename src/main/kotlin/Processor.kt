@@ -63,6 +63,14 @@ class Processor {
                 val newRegisterValue = currentOperation.args[1]
                 registers[registerTarget] = SCNumber(newRegisterValue.resolveValue(registers))
             }
+            OperationType.PUSH -> {
+                val newValue = currentOperation.args[0].resolveValue(registers)
+                stack.push(newValue)
+            }
+            OperationType.POP -> {
+                val registerTarget = currentOperation.args[0].targetRegister()
+                registers[registerTarget] = SCNumber(stack.pop())
+            }
             OperationType.OUT -> {
                 val charCode = currentOperation.args[0].resolveValue(registers)
                 print(Char(charCode))

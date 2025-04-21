@@ -6,6 +6,8 @@ enum class OperationType(
 ) {
     HALT(0),
     SET(1, 2),
+    PUSH(2, 1),
+    POP(3, 1),
     EQ(4, 3),
     JMP(6, 1),
     JT(7, 2),
