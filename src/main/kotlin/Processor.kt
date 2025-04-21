@@ -81,6 +81,12 @@ class Processor {
                 val eq2 = currentOperation.args[2].resolveValue(registers)
                 registers[registerTarget] = SCNumber(if (eq1 == eq2) 1 else 0)
             }
+            OperationType.GT -> {
+                val registerTarget = currentOperation.args[0].targetRegister()
+                val op1 = currentOperation.args[1].resolveValue(registers)
+                val op2 = currentOperation.args[2].resolveValue(registers)
+                registers[registerTarget] = SCNumber(if (op1 > op2) 1 else 0)
+            }
             OperationType.JMP -> {
                 val target = currentOperation.args[0].resolveValue(registers)
                 programCounter = target

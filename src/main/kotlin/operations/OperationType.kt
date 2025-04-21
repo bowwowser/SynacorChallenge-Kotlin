@@ -9,6 +9,7 @@ enum class OperationType(
     PUSH(2, 1),
     POP(3, 1),
     EQ(4, 3),
+    GT(5, 3),
     JMP(6, 1),
     JT(7, 2),
     JF(8, 2),
