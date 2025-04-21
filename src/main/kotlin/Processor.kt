@@ -129,6 +129,11 @@ class Processor {
                 val not1 = operation.args[1].resolveValue(registers)
                 registers[registerTarget] = SCNumber(not1).bitwiseInverse()
             }
+            OperationType.CALL -> {
+                stack.push(programCounter)
+                val jumpTarget = operation.args[0].resolveValue(registers)
+                programCounter = jumpTarget
+            }
             OperationType.HALT -> {
                 programCounter = PC_EXIT
             }

@@ -17,6 +17,7 @@ enum class OperationType(
     AND(12, 3),
     OR(13, 3),
     NOT(14, 2),
+    CALL(17, 1),
     OUT(19, 1),
     NOOP(21);
 
