@@ -51,7 +51,7 @@ class Processor {
         } catch (_: NoSuchElementException) {
             println("!!! Could not parse command with opcode [${memory[programCounter]}] !!!")
             println("=============== HALTING PROCESSING ===============")
-            programCounter = PC_EXIT
+            currentOperation = Operation(OperationType.HALT, arrayOf())
         }
     }
 
