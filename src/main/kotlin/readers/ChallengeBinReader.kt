@@ -1,4 +1,6 @@
-package dev.tuskyparadise
+package dev.tuskyparadise.readers
+
+import dev.tuskyparadise.SCNumber
 
 class ChallengeBinReader {
     val sourceFilePath: String = "/challenge.bin"

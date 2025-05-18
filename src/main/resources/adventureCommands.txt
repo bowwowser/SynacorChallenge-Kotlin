@@ -1,0 +1,50 @@
+take tablet
+go doorway
+go north
+go north
+go bridge
+continue
+down
+east
+take empty lantern
+go west
+go west
+go passage
+go ladder
+west
+south
+north
+take can
+use can
+use lantern
+west
+go ladder
+go darkness
+continue
+west
+west
+west
+west
+go north
+take red coin
+go north
+go west
+take blue coin
+go up
+take shiny coin
+go down
+go east
+go east
+take concave coin
+go down
+take corroded coin
+go up
+go west
+use blue coin
+use red coin
+use shiny coin
+use concave coin
+use corroded coin
+go north
+take teleporter
+use teleporter

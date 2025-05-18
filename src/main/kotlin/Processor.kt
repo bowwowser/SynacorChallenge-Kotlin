@@ -2,6 +2,8 @@ package dev.tuskyparadise
 
 import dev.tuskyparadise.operations.Operation
 import dev.tuskyparadise.operations.OperationType
+import dev.tuskyparadise.readers.AdventureCommandReader
+import dev.tuskyparadise.readers.ChallengeBinReader
 import java.util.Stack
 
 class Processor {
@@ -25,6 +27,8 @@ class Processor {
     val stack = Stack<Int>()
 
     var programCounter: Int = 0
+
+    val adventureCommandReader = AdventureCommandReader()
 
     constructor() {
         ChallengeBinReader().contents
@@ -178,7 +182,13 @@ class Processor {
             OperationType.IN -> {
                 val registerTarget = operation.args[0].targetRegister()
                 if (inputBuffer.isEmpty()) {
-                    for (char in readln() + '\n') {
+                    print("> ")
+                    val nextCommand = if (adventureCommandReader.contents.isNotEmpty()) {
+                        adventureCommandReader.contents.removeFirst().also { println(it) }
+                    } else {
+                        readln()
+                    }
+                    for (char in nextCommand + '\n') {
                         inputBuffer.add(char)
                     }
                 }
